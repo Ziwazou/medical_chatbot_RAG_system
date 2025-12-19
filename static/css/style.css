@@ -1,0 +1,273 @@
+/* Neo-glassmorphism accents layered on Tailwind utilities */
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: #020617;
+    color: #e2e8f0;
+}
+
+.gradient-veil {
+    position: absolute;
+    inset: -20% 0 auto 0;
+    height: 55vh;
+    z-index: -1;
+    background: radial-gradient(circle at top right, rgba(45, 212, 191, 0.35), transparent 45%),
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.25), transparent 45%);
+    filter: blur(90px);
+    opacity: 0.8;
+}
+
+.glass-card,
+.glass-panel {
+    border-radius: 1.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.55));
+    box-shadow: 0 30px 60px rgba(2, 6, 23, 0.7);
+    padding: 2rem;
+}
+
+.dark .glass-card,
+.dark .glass-panel {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.6));
+}
+
+.interactive-btn {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(15, 23, 42, 0.6);
+    color: #cbd5f5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.interactive-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(59, 255, 206, 0.5);
+    box-shadow: 0 15px 30px rgba(16, 185, 129, 0.35);
+}
+
+.question-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(148, 163, 184, 0.08);
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.question-chip:hover {
+    background: rgba(16, 185, 129, 0.25);
+    border-color: rgba(16, 185, 129, 0.6);
+    color: #f8fafc;
+    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.35);
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.pill-emerald {
+    background: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+}
+
+.pill-indigo {
+    background: rgba(99, 102, 241, 0.15);
+    color: #c3dafe;
+}
+
+.welcome-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.35));
+    backdrop-filter: blur(30px);
+    border-radius: 1.5rem;
+    z-index: 1;
+}
+
+.chat-scroll {
+    position: relative;
+    z-index: 0;
+    flex: 1;
+    padding: 1.5rem 1rem 1rem 0;
+    overflow-y: auto;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+}
+
+.chat-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.4);
+    border-radius: 999px;
+}
+
+.message-enter {
+    animation: fade-up 0.25s ease;
+}
+
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.typing-row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    margin-top: 1.25rem;
+}
+
+.typing-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.2);
+    color: #93c5fd;
+}
+
+.typing-bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.typing-bubble span {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.6);
+    animation: typing 1.2s infinite ease-in-out;
+}
+
+.typing-bubble span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.typing-bubble span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes typing {
+    0%, 80%, 100% { transform: scale(0.5); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+.send-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #34d399, #38bdf8);
+    color: #0f172a;
+    font-weight: 600;
+    box-shadow: 0 15px 35px rgba(56, 189, 248, 0.35);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.send-pill:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.send-pill:not(:disabled):hover {
+    transform: translateY(-2px);
+}
+
+.toast {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translate(-50%, -150%);
+    padding: 1rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(15, 23, 42, 0.9);
+    color: #f1f5f9;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    z-index: 999;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.toast.success {
+    background: rgba(16, 185, 129, 0.9);
+}
+
+.toast.error {
+    background: rgba(239, 68, 68, 0.9);
+}
+
+.toast.info {
+    background: rgba(59, 130, 246, 0.85);
+}
+
+.error-shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #020617;
+    padding: 2rem;
+    color: #f8fafc;
+}
+
+.message-card {
+    border-radius: 2rem;
+    padding: 2.5rem;
+    text-align: center;
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 30px 60px rgba(2, 6, 23, 0.6);
+}
+

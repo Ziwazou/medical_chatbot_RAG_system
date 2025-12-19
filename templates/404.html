@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 · Page Not Found</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="error-shell">
+    <div class="message-card max-w-lg space-y-6">
+        <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-rose-500/20 text-rose-300">
+            <i class="fas fa-heart-crack text-3xl"></i>
+        </div>
+        <div>
+            <p class="text-sm uppercase tracking-[0.35em] text-slate-400">Status</p>
+            <h1 class="text-5xl font-semibold text-white">404</h1>
+            <p class="mt-2 text-lg text-slate-300">The page you were looking for drifted off the care plan.</p>
+        </div>
+        <p class="text-sm text-slate-400">
+            Double-check the address or head back to the chat experience to get the medical insights you need.
+        </p>
+        <a href="/" class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 to-sky-500 px-6 py-3 text-sm font-semibold text-slate-900 shadow-glow">
+            <i class="fas fa-arrow-left"></i>
+            Return to Assistant
+        </a>
+    </div>
+</body>
+</html>
+
