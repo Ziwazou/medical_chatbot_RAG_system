@@ -1,16 +1,9 @@
-/**
- * Medical Chatbot - Main JavaScript
- * Handles chat functionality, UI interactions, and theme management
- */
-
-// ==================== State Management ====================
 const state = {
     isLoading: false,
     messageHistory: [],
     currentTheme: localStorage.getItem('theme') || 'dark'
 };
 
-// ==================== DOM Elements ====================
 const elements = {
     chatForm: document.getElementById('chatForm'),
     messageInput: document.getElementById('messageInput'),
@@ -25,7 +18,6 @@ const elements = {
     questionChips: document.querySelectorAll('.question-chip')
 };
 
-// ==================== Initialization ====================
 document.addEventListener('DOMContentLoaded', () => {
     initializeTheme();
     attachEventListeners();
@@ -33,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadChatHistory();
 });
 
-// ==================== Theme Management ====================
 function initializeTheme() {
     applyTheme();
     updateThemeIcon();
@@ -60,71 +51,53 @@ function updateThemeIcon() {
     icon.className = state.currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
 }
 
-// ==================== Event Listeners ====================
 function attachEventListeners() {
-    // Form submission
     elements.chatForm.addEventListener('submit', handleFormSubmit);
-    
-    // Input handling
     elements.messageInput.addEventListener('input', handleInputChange);
     elements.messageInput.addEventListener('keydown', handleKeyDown);
-    
-    // Button clicks
     elements.clearBtn.addEventListener('click', handleClearChat);
     elements.themeToggle.addEventListener('click', toggleTheme);
-    
-    // Quick question chips
+
     elements.questionChips.forEach(chip => {
         chip.addEventListener('click', () => {
-            const question = chip.textContent;
-            elements.messageInput.value = question;
+            elements.messageInput.value = chip.textContent.trim();
             handleInputChange();
             elements.messageInput.focus();
         });
     });
 }
 
-// ==================== Form Handling ====================
 async function handleFormSubmit(e) {
     e.preventDefault();
-    
+
     const message = elements.messageInput.value.trim();
-    
     if (!message || state.isLoading) {
         return;
     }
-    
-    // Hide welcome message on first interaction
+
     if (elements.welcomeMessage) {
         elements.welcomeMessage.style.display = 'none';
     }
-    
-    // Add user message to UI
+
     addMessage('user', message);
-    
-    // Clear input
+
     elements.messageInput.value = '';
     handleInputChange();
     elements.messageInput.style.height = 'auto';
-    
-    // Show typing indicator
+
     showTypingIndicator();
-    
-    // Send message to backend
+
     try {
         state.isLoading = true;
         const response = await sendMessage(message);
-        
         hideTypingIndicator();
-        
+
         if (response.error) {
             showToast(response.error, 'error');
             return;
         }
-        
-        // Add bot response to UI
+
         addMessage('bot', response.response);
-        
     } catch (error) {
         hideTypingIndicator();
         showToast('Failed to get response. Please try again.', 'error');
@@ -134,24 +107,16 @@ async function handleFormSubmit(e) {
     }
 }
 
-// ==================== Input Handling ====================
 function handleInputChange() {
-    const value = elements.messageInput.value;
-    const length = value.length;
-    
-    // Update character count
+    const length = elements.messageInput.value.length;
     elements.charCount.textContent = `${length}/1000`;
-    
-    // Enable/disable send button
     elements.sendBtn.disabled = length === 0 || state.isLoading;
-    
-    // Auto-resize textarea
+
     elements.messageInput.style.height = 'auto';
     elements.messageInput.style.height = elements.messageInput.scrollHeight + 'px';
 }
 
 function handleKeyDown(e) {
-    // Send on Enter (without Shift)
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         elements.chatForm.dispatchEvent(new Event('submit'));
@@ -162,21 +127,18 @@ function autoResizeTextarea() {
     elements.messageInput.style.height = 'auto';
 }
 
-// ==================== API Communication ====================
 async function sendMessage(message) {
     const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message })
     });
-    
+
     if (!response.ok) {
         const error = await response.json();
         throw new Error(error.error || 'Network error');
     }
-    
+
     return await response.json();
 }
 
@@ -184,7 +146,7 @@ async function loadChatHistory() {
     try {
         const response = await fetch('/api/history');
         const data = await response.json();
-        
+
         if (data.history && data.history.length > 0) {
             if (elements.welcomeMessage) {
                 elements.welcomeMessage.style.display = 'none';
@@ -203,11 +165,9 @@ async function clearChatHistory() {
     try {
         const response = await fetch('/api/clear', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
+            headers: { 'Content-Type': 'application/json' }
         });
-        
+
         if (response.ok) {
             elements.chatMessages.innerHTML = '';
             if (elements.welcomeMessage) {
@@ -221,7 +181,6 @@ async function clearChatHistory() {
     }
 }
 
-// ==================== UI Updates ====================
 function addMessage(role, content, animate = true) {
     const wrapper = document.createElement('div');
     wrapper.className = `flex gap-3 ${role === 'user' ? 'flex-row-reverse text-right' : ''}`;
@@ -233,7 +192,7 @@ function addMessage(role, content, animate = true) {
     avatar.className = role === 'user'
         ? 'w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-sky-500 text-white flex items-center justify-center shadow-lg shrink-0'
         : 'w-11 h-11 rounded-2xl bg-white/10 text-brand-200 flex items-center justify-center shrink-0';
-    avatar.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+    avatar.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-user-doctor"></i>';
 
     const bubble = document.createElement('div');
     bubble.className = role === 'user'
@@ -251,7 +210,6 @@ function addMessage(role, content, animate = true) {
 
 function formatMessage(content) {
     let formatted = content.replace(/\n/g, '<br>');
-
     formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
@@ -294,15 +252,12 @@ function formatMessage(content) {
     });
 
     closeList();
-
     formatted = finalLines.join('');
 
-    formatted = formatted
+    return formatted
         .replace(/<ul>/g, '<ul class="mb-3 list-disc space-y-1 pl-5 text-left text-sm">')
         .replace(/<ol>/g, '<ol class="mb-3 list-decimal space-y-1 pl-5 text-left text-sm">')
         .replace(/<li>/g, '<li class="leading-relaxed">');
-    
-    return formatted;
 }
 
 function showTypingIndicator() {
@@ -327,63 +282,16 @@ function scrollToBottom() {
 function showToast(message, type = 'info') {
     elements.toast.textContent = message;
     elements.toast.className = `toast show ${type}`;
-    
     setTimeout(() => {
         elements.toast.className = 'toast';
     }, 3000);
 }
 
-// ==================== Clear Chat Handler ====================
 function handleClearChat() {
-    if (state.isLoading) {
-        return;
-    }
-    
-    // Show confirmation
-    if (elements.chatMessages.children.length === 0) {
-        showToast('No messages to clear', 'info');
-        return;
-    }
-    
+    if (state.isLoading) return;
+    if (elements.chatMessages.children.length === 0) return;
+
     if (confirm('Are you sure you want to clear the chat history?')) {
         clearChatHistory();
     }
 }
-
-// ==================== Utility Functions ====================
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// ==================== Error Handling ====================
-window.addEventListener('error', (event) => {
-    console.error('Global error:', event.error);
-});
-
-window.addEventListener('unhandledrejection', (event) => {
-    console.error('Unhandled promise rejection:', event.reason);
-});
-
-// ==================== Service Worker (Optional) ====================
-if ('serviceWorker' in navigator) {
-    // Uncomment to enable service worker for PWA features
-    // navigator.serviceWorker.register('/sw.js').catch(console.error);
-}
-
-// ==================== Export for testing ====================
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        addMessage,
-        formatMessage,
-        showToast
-    };
-}
-

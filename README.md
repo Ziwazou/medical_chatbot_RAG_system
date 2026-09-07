@@ -1,106 +1,52 @@
-# Medical Chatbot - RAG System 🏥
+# Medical Chatbot (Système RAG)
 
-A modern, AI-powered medical information chatbot built with Flask and LangChain, using Retrieval-Augmented Generation (RAG) to provide accurate, evidence-based medical information.
+Application web de questions-réponses médicales développée avec Flask et LangChain, exploitant la génération augmentée par récupération (RAG) sur des documents médicaux de référence indexés dans Pinecone.
 
-![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
-![Flask](https://img.shields.io/badge/flask-3.1.1-green.svg)
-![LangChain](https://img.shields.io/badge/langchain-0.3+-orange.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+## Présentation
 
-## ✨ Features
+L'application traite des documents médicaux, stocke leurs plongements vectoriels (embeddings) dans un index Pinecone et génère des réponses fiables et contextualisées à l'aide d'un agent conversationnel basé sur Google Gemini.
 
-- 🤖 **AI-Powered Responses**: Uses Google Gemini for intelligent, context-aware answers
-- 📚 **RAG System**: Retrieval-Augmented Generation with Pinecone vector database
-- 🎨 **Modern UI**: Beautiful, responsive interface with dark mode support
-- 💬 **Real-time Chat**: Smooth, interactive chat experience
-- 🔒 **Safe & Reliable**: Evidence-based medical information with appropriate disclaimers
-- 📱 **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
-- 🌙 **Theme Toggle**: Light and dark mode for comfortable viewing
+Composants clés :
+- Recherche vectorielle : Pinecone avec Sentence Transformers (`sentence-transformers/all-MiniLM-L6-v2`)
+- Modèle de langage : Google Gemini via LangChain
+- Interface web : Application Flask avec interface interactive en temps réel
 
-## 🏗️ Architecture
+## Installation et configuration
 
-```
-medical_chatbot_RAG_system/
-├── app.py                  # Flask application
-├── chatbot_engine.py       # RAG system integration
-├── templates/              # HTML templates
-│   ├── index.html         # Main chat interface
-│   ├── 404.html           # Error page
-│   └── 500.html           # Error page
-├── static/                # Static assets
-│   ├── css/
-│   │   └── style.css      # Modern styling
-│   └── js/
-│       └── main.js        # Chat functionality
-├── data/                  # Medical documents (PDFs)
-├── requirements.txt       # Python dependencies
-└── env.example           # Environment variables template
+### Prérequis
+
+- Python 3.9+
+- Un compte et une clé API Pinecone
+- Une clé API Google Gemini
+- Un token API Hugging Face
+
+### 1. Variables d'environnement
+
+Créez un fichier `.env` à la racine du projet :
+
+```env
+GOOGLE_API_KEY=votre_cle_google_api
+HUGGING_FACE_KEY=votre_cle_huggingface
+PINECONE_API_KEY=votre_cle_pinecone
+PINECONE_INDEX_NAME=medical-chatbot
+FLASK_SECRET_KEY=votre_secret_flask
+PORT=5000
+FLASK_DEBUG=False
 ```
 
-## 🚀 Quick Start
+### 2. Installation des dépendances
 
-### Prerequisites
+```bash
+pip install -r requirements.txt
+```
 
-- Python 3.9 or higher
-- Pinecone account and API key
-- Google AI (Gemini) API key
-- HuggingFace API token
+### 3. Lancement de l'application
 
-### Installation
+Démarrez le serveur Flask :
 
-1. **Clone the repository**
-   ```bash
-   cd medical_chatbot_RAG_system
-   ```
+```bash
+python app.py
+```
 
-2. **Create a virtual environment**
-   ```bash
-   python -m venv medbot
-   
-   # On Windows
-   medbot\Scripts\activate
-   
-   # On Mac/Linux
-   source medbot/bin/activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Set up environment variables**
-   
-   Copy `env.example` to `.env` and fill in your API keys:
-   ```bash
-   cp env.example .env
-   ```
-   
-   Then edit `.env` with your actual values:
-   ```env
-   GOOGLE_API_KEY=your_google_api_key
-   HUGGING_FACE_KEY=your_huggingface_token
-   PINECONE_API_KEY=your_pinecone_api_key
-   FLASK_SECRET_KEY=your_secret_key
-   ```
-
-5. **Prepare your data**
-   
-   Place your medical PDF documents in the `data/` directory.
-
-6. **Initialize the vector database**
-   
-   Run the data ingestion notebook or script:
-   ```bash
-   jupyter notebook research/trials.ipynb
-   ```
-
-7. **Run the application**
-   ```bash
-   python app.py
-   ```
-
-8. **Open your browser**
-   
-   Navigate to: `http://localhost:5000`
+L'application est accessible à l'adresse `http://localhost:5000`.
 
